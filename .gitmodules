@@ -1,6 +1,7 @@
 [submodule "rtems"]
 	path = rtems
-	url = https://github.com/grisp/rtems
+	url = https://github.com/nextl00p/rtems
+	branch = ISRargs
 [submodule "rtems-libbsd"]
 	path = rtems-libbsd
 	url = https://github.com/grisp/rtems-libbsd
