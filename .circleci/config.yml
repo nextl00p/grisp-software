@@ -6,5 +6,6 @@ jobs:
         docker:
           - image: 'opensuse:leap'
         steps:
+          - run: 'zypper install -y git'
           - checkout
           - run: ./build/build.sh
