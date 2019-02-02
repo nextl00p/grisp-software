@@ -5,6 +5,6 @@ jobs:
     build:
         docker:
           - image: 'opensuse:leap'
-	steps:
+        steps:
           - checkout
           - run: ./build/build.sh
