@@ -6,7 +6,7 @@ jobs:
         docker:
           - image: 'opensuse:leap'
         steps:
-          - run: 'zypper install --type pattern Basis-Devel'
-          - run: 'zypper install -y git'
+          - run: 'zypper install -y --type pattern devel_basis devel_C_C++'
+          - run: 'zypper install -y git python3-dev python-dev'
           - checkout
           - run: ./build/build.sh
