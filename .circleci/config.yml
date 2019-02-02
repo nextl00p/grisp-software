@@ -7,6 +7,6 @@ jobs:
           - image: 'opensuse:leap'
         steps:
           - run: 'zypper install -y --type pattern devel_basis devel_C_C++'
-          - run: 'zypper install -y git python3-devel python-devel'
+          - run: 'zypper install -y git python3-devel python-devel gcc-c++ unzip'
           - checkout
           - run: ./build/build.sh
