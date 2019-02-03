@@ -9,4 +9,6 @@ jobs:
           - run: 'zypper install -y --type pattern devel_basis devel_C_C++'
           - run: 'zypper install -y git python3-devel python-devel gcc-c++ unzip'
           - checkout
-          - run: ./build/build.sh
+          - run:
+              command: ./build/build.sh
+              no_output_timeout: 90m
