@@ -23,7 +23,7 @@ jobs:
           - attach_workspace:
               at: /tmp/rtems-install
           - run: 'GRISP_TOOLCHAIN_REVISION=$(cat /tmp/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION)'
-	  - run:
+          - run:
               name: Create archive
               command: tar -czf rtems-install-$GRISP_TOOLCHAIN_REVISION.tar.gz .
               working_directory: /tmp/rtems-install
