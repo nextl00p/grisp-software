@@ -12,3 +12,29 @@ jobs:
           - run:
               command: ./build/build.sh
               no_output_timeout: 90m
+          - persist_to_workspace:
+              root: .
+              paths: rtems-install
+    deploy:
+        docker:
+          - image: 'opensuse:leap'
+        steps:
+          - run: 'zypper install -y aws-cli'
+          - attach_workspace:
+              at: /tmp/rtems-install
+          - run: 'GRISP_TOOLCHAIN_REVISION=$(cat /tmp/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION)'
+	  - run:
+              name: Create archive
+              command: tar -czf rtems-install-$GRISP_TOOLCHAIN_REVISION.tar.gz .
+              working_directory: /tmp/rtems-install
+          - deploy:
+              command: aws s3 cp rtems-install-*.tar.gz s3://grisp/platforms/grisp_base/toolchain/a
+
+workflows:
+    version: 2
+    build-deploy:
+        jobs:
+          - build
+          - deploy:
+              requires:
+                - build
