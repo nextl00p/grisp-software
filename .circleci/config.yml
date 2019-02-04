@@ -26,10 +26,9 @@ jobs:
           - run: 'zypper install -y aws-cli tar gzip'
           - attach_workspace:
               at: /tmp
-          - run: 'GRISP_TOOLCHAIN_REVISION=$(cat /tmp/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION)'
           - run:
-              name: Create archive
-              command: tar -czf /tmp/grisp_toolchain_arm-rtems5_Linux_$GRISP_TOOLCHAIN_REVISION.tar.gz .
+              command: "GRISP_TOOLCHAIN_REVISION=$(cat /tmp/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION) &&
+              tar -czf /tmp/grisp_toolchain_arm-rtems5_Linux_$GRISP_TOOLCHAIN_REVISION.tar.gz ."
               working_directory: /tmp/rtems-install
           - deploy:
               command: aws s3 cp /tmp/grisp_toolchain_*.tar.gz s3://grisp/platforms/grisp_base/toolchain/
