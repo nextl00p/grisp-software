@@ -23,7 +23,7 @@ jobs:
         docker:
           - image: 'opensuse:leap'
         steps:
-          - run: 'zypper install -y aws-cli'
+          - run: 'zypper install -y aws-cli tar gzip'
           - attach_workspace:
               at: /tmp/rtems-install
           - run: 'GRISP_TOOLCHAIN_REVISION=$(cat /tmp/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION)'
