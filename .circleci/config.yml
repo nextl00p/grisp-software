@@ -1,10 +1,9 @@
 version: 2.1
-orbs:
-    aws-s3: circleci/aws-s3@1.0.0
 jobs:
     build:
         docker:
           - image: 'opensuse:leap'
+        working_directory: /opt/grisp/grisp-software/grisp-base/{{ .Revision }}/
         steps:
           - run: 'zypper install -y --type pattern devel_basis devel_C_C++'
           - run: 'zypper install -y git python3-devel python-devel gcc-c++ unzip'
