@@ -3,32 +3,33 @@ jobs:
     build:
         docker:
           - image: 'opensuse:leap'
-        working_directory: /opt/grisp/grisp-software/grisp-base/{{ .Revision }}/
         steps:
           - run: 'zypper install -y --type pattern devel_basis devel_C_C++'
           - run: 'zypper install -y git python3-devel python-devel gcc-c++ unzip'
-          - checkout
-          - run: 'git submodule update --init rtems-source-builder'
+          - run: 'export TOOLCHAIN_PATH="/opt/grisp/grisp-software/grisp-base/$(echo $CIRCLE_SHA1 | cut -c 1-10)"' >> $BASH_ENV
+          - run: git -C $TOOLCHAIN_PATH clone $CIRCLE_REPOSITORY_URL
+          - run: echo $TOOLCHAIN_PATH
+          - run: 'git -C ${TOOLCHAIN_PATH} submodule update --init rtems-source-builder'
           - run:
               name: Disable parallelism during gcc build due to RAM limit at CircleCI
-              command: 'sed -i "s/%define with_threads 1/%define with_threads 0/" rtems-source-builder/rtems/config/tools/rtems-gcc-7.3.0-newlib-3.0.0.cfg'
+              command: 'sed -i "s/%define with_threads 1/%define with_threads 0/" ${TOOLCHAIN_PATH}/rtems-source-builder/rtems/config/tools/rtems-gcc-7.3.0-newlib-3.0.0.cfg'
           - run:
-              command: ./build/build.sh
+              command: cd $TOOLCHAIN_PATH; ./build/build.sh
               no_output_timeout: 90m
           - persist_to_workspace:
-              root: .
-              paths: rtems-install
+              root: /opt/grisp
+              paths: */*/*/rtems-install
     deploy:
         docker:
           - image: 'opensuse:leap'
         steps:
           - run: 'zypper install -y aws-cli tar gzip'
           - attach_workspace:
-              at: /tmp
+              at: /opt/grisp
           - run:
-              command: "GRISP_TOOLCHAIN_REVISION=$(cat /tmp/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION) &&
+              command: "GRISP_TOOLCHAIN_REVISION=$(cat /opt/grisp/*/*/*/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION) &&
               tar -czf /tmp/grisp_toolchain_arm-rtems5_Linux_$GRISP_TOOLCHAIN_REVISION.tar.gz ."
-              working_directory: /tmp/rtems-install
+              working_directory: /opt/grisp
           - deploy:
               command: aws s3 cp /tmp/grisp_toolchain_*.tar.gz s3://grisp/platforms/grisp_base/toolchain/
 workflows:
