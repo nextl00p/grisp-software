@@ -19,7 +19,7 @@ jobs:
           - persist_to_workspace:
               root: /opt/grisp
               paths:
-                - /*/*/*/rtems-install
+                - */*/*/rtems-install
     deploy:
         docker:
           - image: 'opensuse:leap'
