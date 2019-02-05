@@ -10,7 +10,7 @@ jobs:
               name: Set path variable
               command: |
                 SHORT_SHA1=$(echo "${CIRCLE_SHA1}" | cut -c 1-10)
-                echo 'export TOOLCHAIN_PATH="/opt/grisp/grisp-software/grisp-base/$SHORT_SHA1"' >> $BASH_ENV
+                echo 'export TOOLCHAIN_PATH="/opt/grisp/grisp-software/grisp-base/'$SHORT_SHA1'"' >> $BASH_ENV
           - run: mkdir -p ${TOOLCHAIN_PATH}
           - checkout
           - run: echo $TOOLCHAIN_PATH && mv ./* "${TOOLCHAIN_PATH}"
