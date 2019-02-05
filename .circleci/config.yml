@@ -6,7 +6,7 @@ jobs:
         steps:
           - run: 'zypper install -y --type pattern devel_basis devel_C_C++'
           - run: 'zypper install -y git python3-devel python-devel gcc-c++ unzip'
-          - run: 'export TOOLCHAIN_PATH="/opt/grisp/grisp-software/grisp-base/$(echo ${CIRCLE_SHA1} | cut -c 1-10)"' >> $BASH_ENV
+          - run: "export TOOLCHAIN_PATH=\"/opt/grisp/grisp-software/grisp-base/$(echo ${CIRCLE_SHA1} | cut -c 1-10)\"" >> $BASH_ENV
           - run: mkdir -p ${TOOLCHAIN_PATH}
           - run: git clone ${CIRCLE_REPOSITORY_URL} ${TOOLCHAIN_PATH}
           - run: 'git -C ${TOOLCHAIN_PATH} submodule update --init rtems-source-builder'
