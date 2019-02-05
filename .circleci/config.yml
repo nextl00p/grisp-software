@@ -18,7 +18,8 @@ jobs:
               no_output_timeout: 90m
           - persist_to_workspace:
               root: /opt/grisp
-              paths: */*/*/rtems-install
+              paths:
+                - /*/*/*/rtems-install
     deploy:
         docker:
           - image: 'opensuse:leap'
