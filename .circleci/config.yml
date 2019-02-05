@@ -13,8 +13,8 @@ jobs:
                 echo 'export TOOLCHAIN_PATH="/opt/grisp/grisp-software/grisp-base/$SHORT_SHA1"' >> $BASH_ENV
           - run: mkdir -p ${TOOLCHAIN_PATH}
           - checkout
-          - run: mv ./* ${TOOLCHAIN_PATH}
-          - run: 'git -C ${TOOLCHAIN_PATH} submodule update --init rtems-source-builder'
+          - run: mv ./* "${TOOLCHAIN_PATH}"
+          - run: 'git -C "${TOOLCHAIN_PATH}" submodule update --init rtems-source-builder'
           - run:
               name: Disable parallelism during gcc build due to RAM limit at CircleCI
               command: 'sed -i "s/%define with_threads 1/%define with_threads 0/" ${TOOLCHAIN_PATH}/rtems-source-builder/rtems/config/tools/rtems-gcc-7.3.0-newlib-3.0.0.cfg'
