@@ -12,7 +12,8 @@ jobs:
                 SHORT_SHA1=$(echo "${CIRCLE_SHA1}" | cut -c 1-10)
                 echo 'export TOOLCHAIN_PATH="/opt/grisp/grisp-software/grisp-base/$SHORT_SHA1"' >> $BASH_ENV
           - run: mkdir -p ${TOOLCHAIN_PATH}
-          - run: git clone ${CIRCLE_REPOSITORY_URL} ${TOOLCHAIN_PATH}
+          - checkout
+          - run: mv ./* ${TOOLCHAIN_PATH}
           - run: 'git -C ${TOOLCHAIN_PATH} submodule update --init rtems-source-builder'
           - run:
               name: Disable parallelism during gcc build due to RAM limit at CircleCI
