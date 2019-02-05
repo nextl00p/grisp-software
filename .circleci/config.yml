@@ -30,7 +30,7 @@ jobs:
           - run:
               command: "GRISP_TOOLCHAIN_REVISION=$(cat /opt/grisp/*/*/*/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION) &&
               tar -czf /tmp/grisp_toolchain_arm-rtems5_Linux_$GRISP_TOOLCHAIN_REVISION.tar.gz ."
-              working_directory: /opt/grisp
+              working_directory: /opt
           - deploy:
               command: aws s3 cp /tmp/grisp_toolchain_*.tar.gz s3://grisp/platforms/grisp_base/toolchain/
 workflows:
