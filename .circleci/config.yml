@@ -17,16 +17,16 @@ jobs:
               command: cd $TOOLCHAIN_PATH; ./build/build.sh
               no_output_timeout: 90m
           - persist_to_workspace:
-              root: /opt/grisp
+              root: /opt
               paths:
-                - */*/*/rtems-install
+                - grisp/*/*/*/rtems-install
     deploy:
         docker:
           - image: 'opensuse:leap'
         steps:
           - run: 'zypper install -y aws-cli tar gzip'
           - attach_workspace:
-              at: /opt/grisp
+              at: /opt
           - run:
               command: "GRISP_TOOLCHAIN_REVISION=$(cat /opt/grisp/*/*/*/rtems-install/rtems/5/GRISP_TOOLCHAIN_REVISION) &&
               tar -czf /tmp/grisp_toolchain_arm-rtems5_Linux_$GRISP_TOOLCHAIN_REVISION.tar.gz ."
